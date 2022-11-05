@@ -1,26 +1,36 @@
 #ifndef HEADER_FILE_NAME2
 #define HEADER_FILE_NAME2
+
 #include <string>
 #include <iostream>
+#include "BankApp.h"
+
 using namespace std;
+
+class BankApplication;
+class Client;
 
 class BankAccount
 {
+
 protected:
     string accountID;
     double balance;
-    // Client *owner;
+    static int id ;
+    int type;
+    BankApplication *app;
+    Client *owner;
 
 public:
     // ========== constructors ==========
     BankAccount() { balance = 0.0; }
 
-    BankAccount(double balance);
-    // static int id;
+    BankAccount(double balance , BankApplication * a , int type);
     void set_accountID();
     void set_balance(double balance);
     string get_accountID() { return accountID; }
     double get_balance() { return balance; }
+    int get_type(){ return type; }
     double withdraw(double amount);
     double deposite(double amount);
     void receipt();
@@ -34,17 +44,12 @@ public:
     // }
 
     // // ========== set & get ==========
-    // static int id;
-    // void set_accountID()
-    // {
-    //     id++;
-    //     accountID = "FCAI-" + id;
-    // }
 
-    // void set_balance(double balance)
-    // {
-    //     this->balance = balance;
-    // }
+
+//     void set_balance(double balance)
+//     {
+//         this->balance = balance;
+//     }
 
     // // void set_client()
 
@@ -82,8 +87,6 @@ public:
     //     cout << "New Balance: " << get_balance() << endl;
     // }
 };
-
-// int BankAccount::id = 000;
 
 class SavingBankAccount : public BankAccount
 {
