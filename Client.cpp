@@ -1,6 +1,8 @@
 #include "Client.h"
+#include "BankAccount.h"
 
-Client::Client(string &name, string &address, string &phoneNumber)
+
+Client::Client(string &name, string &address, string &phoneNumber, BankApplication* a)
 {
     cout << "Please Enter Client Name\n";
     getline(cin, name);
@@ -11,22 +13,42 @@ Client::Client(string &name, string &address, string &phoneNumber)
     cout << "Please Enter Client Phone";
     cin >> phoneNumber;
     this->phoneNumber = phoneNumber;
-    // this->account = new BankAccount(this);
+    this->app = a;
+//     this->account = new BankAccount(this);
+
+}
+Client ::Client(string name, string address, int phoneNumber , BankApplication* a)
+{
+    this->name = name;
+    this->address = address;
+    this->phoneNumber = to_string(phoneNumber);
+    this->app = a;
+}
+void Client::createAccount(char type, double balance)
+{
+    int t = type - '0';
+    this->account = new BankAccount(balance, app, t);
 }
 
-void Client::createAccount(int &type, double &balance)
+
+void Client::createAccount(int &ty, double &balance)
 {
     cout << "What Type of Account Do You Like? (1) Basic (2) Saving ; Type 1 or 2\n";
-    cin >> type;
+    cin >> ty;
     cout << "Please Enter the Starting Balance\n";
     cin >> balance;
-    if (type == 1)
-        this->account = new BankAccount(balance);
+    if (ty == 1)
+        this->account = new BankAccount(balance, app, ty );
     // else if (type == 2)
     //     this->account = new SavingBankAccount(balance, this);
 }
 
 BankAccount Client::get_account() { return *account; }
+
+void Client :: updateBalance(double nBalance)
+{
+    account->set_balance(nBalance);
+}
 
 ostream &operator<<(ostream &out, Client c)
 {
