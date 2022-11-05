@@ -4,7 +4,10 @@
 #include <vector>
 #include "BankAccount.h"
 #include "Client.h"
+
 using namespace std;
+
+class Client;
 
 class BankApplication
 {
@@ -19,6 +22,13 @@ public:
     void menu();
     void displayMenu();
     void run();
+    void forTesting();
+    int validID(string idd);
+    void withdrawOperator();
+    void balanceEditing(double nBalance , string id);
+
+
+
 };
 
 #endif
