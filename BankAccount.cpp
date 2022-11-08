@@ -1,104 +1,95 @@
-#ifndef HEADER_FILE_NAME2
-#define HEADER_FILE_NAME2
+#include "BankAccount.h"
 
-#include <string>
-#include <iostream>
-#include "BankApp.h"
+int BankAccount :: id = 0;
 
-using namespace std;
-
-class BankApplication;
-class Client;
-
-class BankAccount
+BankAccount::BankAccount(double balance, BankApplication* a , int type )
 {
+    this->balance = balance;
+//    this->owner = &owner;
+    this->app = a;
+    this->type = type;
+    set_accountID();
+    cout << "An account was created with ID: " << accountID
+         << " and Starting Balance " << balance << "L.E.\n";
+}
 
-protected:
-    string accountID;
-    double balance;
-    static int id ;
-    int type;
-    BankApplication *app;
-    Client *owner;
-
-public:
-    // ========== constructors ==========
-    BankAccount() { balance = 0.0; }
-
-    BankAccount(double balance , BankApplication * a , int type);
-    void set_accountID();
-    void set_balance(double balance);
-    string get_accountID() { return accountID; }
-    double get_balance() { return balance; }
-    int get_type(){ return type; }
-    double withdraw(double amount);
-    double deposit(double amount);
-    void receipt();
-    // BankAccount(double balance, Client *owner)
-    // {
-    //     this->balance = balance;
-    //     this->owner = owner;
-    //     set_accountID();
-    //     cout << "An account was created with ID" << accountID
-    //          << " and Starting Balance " << balance << "L.E.";
-    // }
-
-    // // ========== set & get ==========
-
-
-//     void set_balance(double balance)
-//     {
-//         this->balance = balance;
-//     }
-
-    // // void set_client()
-
-    // string get_accountID() { return accountID; }
-    // double get_balance() { return balance; }
-
-    // // ========== operations ==========
-    // int withdraw(double amount)
-    // {
-    //     // need a loop
-    //     if (amount <= balance)
-    //     {
-    //         set_balance(balance - amount);
-    //         // receipt();
-    //         return get_balance();
-    //     }
-
-    //     else
-    //     {
-    //         cout << "Sorry. This is more than what you can withdraw.\n";
-    //     }
-    // }
-
-    // int deposite(double amount)
-    // {
-    //     set_balance(balance + amount); // need to validate amount
-    //                                    // receipt();
-    //     return get_balance();
-    // }
-
-    // void receipt()
-    // {
-    //     cout << "Thank you.\n";
-    //     cout << "Account ID: " << get_accountID();
-    //     cout << "New Balance: " << get_balance() << endl;
-    // }
-};
-
-class SavingBankAccount : public BankAccount
+// ========== set & get ==========
+void BankAccount :: set_accountID()
 {
-private:
-    double minimumBalance;
+    id++;
+    int dif;
+    string temp;
+    dif = 3 - to_string(id).size();
+    for(int i = 0; i < dif ; i++)
+    {
+         temp += '0';
+    }
+    temp += to_string(id);
 
-public:
-    // ========== constructors ==========
-    SavingBankAccount(double balance);
+    accountID = "FCAI-" + temp;
+}
 
-    // ========== set & get ==========
+void BankAccount::set_balance(double balance)
+{
+    this->balance = balance;
+}
 
-    // ========== operations ==========
-};
-#endif
+// void set_client()
+
+// ========== operations ==========
+double BankAccount::withdraw(double amount)
+{
+    bool is_valid = false;
+    double newBalance = balance - amount;
+
+
+
+    while (!is_valid)
+    {
+        if (amount <= balance)
+        {
+            set_balance(balance - amount);
+            is_valid = true;
+             receipt();
+             app->balanceEditing(newBalance,accountID);
+             return get_balance();
+
+        }
+        else
+        {
+            cout << "Sorry this is more than what you can withdraw\n"
+                    "Please enter valid amount\n";
+            cin >> amount;
+        }
+
+    }
+
+    return get_balance();
+}
+
+double BankAccount :: deposit(double amount)
+{
+    set_balance(balance + amount); // need to validate amount
+    app->balanceEditing(balance, accountID);
+     receipt();
+     return get_balance();
+}
+
+void BankAccount::receipt()
+{
+    cout << "Thank you.\n";
+     cout << "Account ID: " << get_accountID() << '\n';
+     cout << "New Balance: " << get_balance() << endl;
+}
+
+//SavingBankAccount::SavingBankAccount(double balance) : BankAccount(balance)
+//{
+    // if (balance >= minimumBalance)
+    // {
+    //     BankAccount(balance);
+    // }
+    // else
+    // {
+    //     cout << "Error: the balance is below the minimum\n";
+    // }
+//}
