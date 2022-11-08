@@ -24,7 +24,7 @@ public:
     void run();
     void forTesting();
     int validID(string idd);
-    void withdrawOperator();
+    void withdrawDepositOperator(int cas);
     void balanceEditing(double nBalance , string id);
 
 
