@@ -52,7 +52,7 @@ double BankAccount::withdraw(double amount)
             is_valid = true;
              receipt();
              app->balanceEditing(newBalance,accountID);
-//             return get_balance();
+             return get_balance();
 
         }
         else
@@ -64,15 +64,15 @@ double BankAccount::withdraw(double amount)
 
     }
 
-
+    return get_balance();
 }
 
-double BankAccount::deposite(double amount)
+double BankAccount :: deposit(double amount)
 {
     set_balance(balance + amount); // need to validate amount
-    // receipt();
-    // return get_balance();
-    return 0;
+    app->balanceEditing(balance, accountID);
+     receipt();
+     return get_balance();
 }
 
 void BankAccount::receipt()
