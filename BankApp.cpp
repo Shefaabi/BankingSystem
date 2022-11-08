@@ -49,10 +49,12 @@ void BankApplication::displayMenu()
                 break;
             case 3:
             // // Withdraw Money
-                withdrawOperator();
+                withdrawDepositOperator(3);
                 break;
-            // case 4:
+             case 4:
             // // Deposit Money
+                 withdrawDepositOperator(4);
+                break;
             case 5:
                 exit(0);
         }
@@ -96,31 +98,48 @@ int BankApplication :: validID(string idd)
     return 0;
 }
 
-void BankApplication :: withdrawOperator()
+void BankApplication :: withdrawDepositOperator(int cas)
 {
     string str_ID;
     double amount;
-    cout << "Please enter your ID\n";
-    cin >> str_ID;
-    if(validID(str_ID))
+    while(true)
     {
-        int i = validID(str_ID) - 1;
-        cout << "The Account ID is " << clinet[i].get_account().get_accountID() << '\n';
-        if(clinet[i].get_account().get_type() == 1)
+        cout << "Please enter your ID\n";
+        cin >> str_ID;
+
+        if(validID(str_ID))
         {
-            cout <<  "The Account Type is Basic Account\n";
+            int i = validID(str_ID) - 1;
+            cout << "The Account ID is " << clinet[i].get_account().get_accountID() << '\n';
+            if(clinet[i].get_account().get_type() == 1)
+            {
+                cout <<  "The Account Type is Basic Account\n";
+            }
+            else
+                cout << "The Account Type is Saving Account\n";
+
+            if(cas == 3)
+            {
+                cout << "Your current balance is: " <<  clinet[i].get_account().get_balance() << '\n' <<
+                     "Please enter the amount you want to withdraw\n";
+                cin >> amount;
+                clinet[i].get_account().withdraw(amount);
+                break;
+            }
+            else if(cas == 4)
+            {
+                cout << "Your current balance is: " <<  clinet[i].get_account().get_balance() << '\n' <<
+                     "Please enter the amount you want to deposit\n";
+                cin >> amount;
+                clinet[i].get_account().deposit(amount);
+                break;
+            }
         }
         else
-            cout << "The Account Type is Saving Account\n";
+        {
+            cout << "Invalid ID!\n" ;
+        }
 
-        cout << "Your current balance is: " <<  clinet[i].get_account().get_balance() << '\n' <<
-        "Please enter the amount you want to withdraw\n";
-        cin >> amount;
-        clinet[i].get_account().withdraw(amount);
-    }
-    else
-    {
-        cout << "Invalid ID!\n" ;
     }
 
 }
@@ -135,3 +154,4 @@ void BankApplication :: balanceEditing(double nBalance ,string id)
         }
     }
 }
+
