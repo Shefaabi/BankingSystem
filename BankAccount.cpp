@@ -82,14 +82,38 @@ void BankAccount::receipt()
      cout << "New Balance: " << get_balance() << endl;
 }
 
-//SavingBankAccount::SavingBankAccount(double balance) : BankAccount(balance)
-//{
-    // if (balance >= minimumBalance)
-    // {
-    //     BankAccount(balance);
-    // }
-    // else
-    // {
-    //     cout << "Error: the balance is below the minimum\n";
-    // }
-//}
+SavingBankAccount::SavingBankAccount(double balance, int type)
+{
+    this->minimumBalance = 1000;
+
+    if (balance >= minimumBalance)
+    {
+        set_balance(balance);
+        set_accountID();
+        cout << "An account was created with ID: " << accountID
+             << " and Starting Balance " << balance << "L.E.\n";
+    }
+
+    else
+    {
+        cout << "\nError: The balance is below the minimum balance.\n";
+    }
+}
+
+double SavingBankAccount::withdraw(double amount)
+{
+    while (true)
+    {
+        if ((balance - amount) >= minimumBalance)
+        {
+            BankAccount::withdraw(amount);
+            break;
+        }
+        else
+        {
+            cout << "Sorry the amount is more than what you can withdraw.\n";
+            cout << "Please enter a valid amount:\n";
+            cin >> amount;
+        }
+    }
+}
