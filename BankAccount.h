@@ -95,10 +95,7 @@ private:
 
 public:
     // ========== constructors ==========
-    SavingBankAccount(double balance);
-
-    // ========== set & get ==========
-
-    // ========== operations ==========
+    SavingBankAccount(double balance, int type);
+    double withdraw(double amount);
 };
 #endif
