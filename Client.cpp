@@ -1,8 +1,7 @@
 #include "Client.h"
 #include "BankAccount.h"
 
-
-Client::Client(string &name, string &address, string &phoneNumber, BankApplication* a)
+Client::Client(string &name, string &address, string &phoneNumber)
 {
     cout << "Please Enter Client Name\n";
     getline(cin, name);
@@ -10,45 +9,43 @@ Client::Client(string &name, string &address, string &phoneNumber, BankApplicati
     cout << "Please Enter Client Address\n";
     getline(cin, address);
     this->address = address;
-    cout << "Please Enter Client Phone";
+    cout << "Please Enter Client Phone\n";
     cin >> phoneNumber;
     this->phoneNumber = phoneNumber;
-    this->app = a;
-//     this->account = new BankAccount(this);
-
 }
-Client ::Client(string name, string address, int phoneNumber , BankApplication* a)
+Client ::Client(string name, string address, int phoneNumber)
 {
     this->name = name;
     this->address = address;
     this->phoneNumber = to_string(phoneNumber);
-    this->app = a;
 }
 void Client::createAccount(char type, double balance)
 {
     int t = type - '0';
-    this->account = new BankAccount(balance, app, t);
+
+    if (type == '1')
+    {
+        this->account = new BankAccount(balance, t);
+    }
+    else if (type == '2')
+    {
+        this->account = new SavingBankAccount(balance, t);
+    }
 }
 
-
-void Client::createAccount(int &ty, double &balance)
+void Client::createAccount(int &type, double &balance)
 {
     cout << "What Type of Account Do You Like? (1) Basic (2) Saving ; Type 1 or 2\n";
-    cin >> ty;
+    cin >> type;
     cout << "Please Enter the Starting Balance\n";
     cin >> balance;
-    if (ty == 1)
-        this->account = new BankAccount(balance, app, ty );
-    // else if (type == 2)
-    //     this->account = new SavingBankAccount(balance, this);
+    if (type == 1)
+        this->account = new BankAccount(balance, type);
+    else if (type == 2)
+        this->account = new SavingBankAccount(balance, type);
 }
 
-BankAccount Client::get_account() { return *account; }
-
-void Client :: updateBalance(double nBalance)
-{
-    account->set_balance(nBalance);
-}
+BankAccount &Client::get_account() { return *(this->account); }
 
 ostream &operator<<(ostream &out, Client c)
 {
