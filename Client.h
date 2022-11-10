@@ -28,7 +28,6 @@ public:
     void createAccount(int &type, double &balance);
 
     BankAccount &get_account();
-    SavingBankAccount &get();
 
     friend ostream &operator<<(ostream &out, Client c);
     // ~Client() { delete account; }
