@@ -18,8 +18,6 @@ protected:
     double balance;
     static int id;
     int type;
-    // BankApplication *app;
-    // Client *owner;
 
 public:
     // ========== constructors ==========
